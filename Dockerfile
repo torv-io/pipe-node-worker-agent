@@ -10,12 +10,12 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | b
 WORKDIR /app
 
 # Copy package.json and install dependencies (including @pipe/* packages from npm)
-COPY pipe-node-worker-agent/package.json ./
+COPY package.json ./
 RUN npm install
 
 # Copy application code
-COPY pipe-node-worker-agent/index.js ./
-COPY pipe-node-worker-agent/bootstrap.sh ./bootstrap.sh
+COPY index.js ./
+COPY bootstrap.sh ./bootstrap.sh
 RUN chmod +x ./bootstrap.sh
 
 # Run via bootstrap script (sources nvm)
