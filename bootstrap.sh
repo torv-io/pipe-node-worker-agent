@@ -16,6 +16,9 @@ WORK_DIR="/tmp/stage-$(date +%s)-$$"
 mkdir -p "$WORK_DIR"
 trap "rm -rf $WORK_DIR" EXIT
 
+# Minimal package.json for createRequire (required even when no deps)
+echo '{"name":"stage-run","version":"1.0.0"}' > "$WORK_DIR/package.json"
+
 # Source nvm before using nvm install/use
 export NVM_DIR="/root/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
@@ -39,7 +42,7 @@ fi
 
 # Symlink @pipe/* from app into work dir (shared + node-sdk for stage runtime)
 mkdir -p "$WORK_DIR/node_modules/@pipe"
-ln -sf /app/node_modules/@pipe/shared "$WORK_DIR/node_modules/@pipe/shared" 2>/dev/null || true
+ln -sf /app/node_modules/@torv/shared "$WORK_DIR/node_modules/@torv/shared" 2>/dev/null || true
 ln -sf /app/node_modules/@pipe/node-sdk "$WORK_DIR/node_modules/@pipe/node-sdk" 2>/dev/null || true
 
 # Write bundled stage code to work dir and execute via index.js
